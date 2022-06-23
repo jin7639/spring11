@@ -7,9 +7,6 @@ import org.springframework.web.bind.annotation.*;
 import spring.dto.BoardDto;
 import spring.service.BoardService;
 
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-
 @Controller
 @RequestMapping("/board")
 public class BoardController {
@@ -34,21 +31,10 @@ public class BoardController {
 
     @GetMapping("/list")
     public String list(Model model) {
-            model.addAllAttributes("btitle",boardService.boardDtoList());
-            model.addAllAttributes("bcontent",boardService.boardDtoList())
+            model.addAttribute("boardlist", boardService.boardDtoList());
         return "board/list";
     }
-//    @GetMapping("/getboardlist")
-//    public void getboardlist(HttpServletResponse response) {
-//        try {
-//            response.setCharacterEncoding("UTF-8");
-//            response.setContentType("application.json");
-//            response.getWriter().print(boardService.getboardlist());
-//            out.println(변수명);
-//        } catch (IOException e) {
-//            System.out.println(e);
-//        }
-//    }
+
 
 
 }
