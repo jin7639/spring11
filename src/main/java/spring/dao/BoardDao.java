@@ -58,4 +58,47 @@ public class BoardDao {
     }
 
 
+    public BoardDto getboard(int bno) {
+            String sql = "select * from board where bno="+bno;
+            System.out.println(sql);
+            try {
+                ps = con.prepareStatement(sql);
+                rs = ps.executeQuery();
+                if(rs.next()){
+                    BoardDto boardDto = new BoardDto(
+                            rs.getInt(1),
+                            rs.getString(2),
+                            rs.getString(3)
+                    );
+                    return  boardDto;
+                }
+            }catch (Exception e){
+                System.out.println("getboard error : " + e);
+            }
+            return null;
+    }
+
+    public boolean update(int bno, String btitle, String bcontent) {
+            String sql = "update board set btitle = "+btitle+" and bcontent = "+bcontent+" where bno = "+bno;
+        try {
+            ps= con.prepareStatement(sql);
+            ps.executeUpdate();
+            return true;
+        } catch (Exception e) {
+            System.out.println("오류 " + e);
+        }
+        return false;
+    }
+
+    public boolean delete(int bno) {
+        String sql = "delete from board where bno="+bno;
+        try {
+            ps = con.prepareStatement(sql);
+            ps.execute();
+            return true;
+        } catch (Exception e) {
+            System.out.println("sql오류 " + e);
+        }
+        return false;
+    }
 }

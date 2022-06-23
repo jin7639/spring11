@@ -6,12 +6,17 @@
 </head>
 <body>
     <div id="boardlist">
-        <h3>글목록</h3>
         <a href="/board/save">쓰기</a>
-        <tr th:each="array:${list}">
-            <td>[[${array.getBtitle}]]</td>
-            <td>[[${array.getBcontent}]]</td>
+        <h3>글목록</h3>
+        <table>
+
+        <tr th:each="array:${boardlist}">
+
+            <td th:text="${array.bno}" ></td>
+            <td><a th:href="@{/board/view/{bno}(bno=${array.getBno})}" > <span th:text = "${array.btitle}"></span></a></td>
+            <td th:text="${array.bcontent}"></td>
         </tr>
+        </table>
     </div>
 </body>
 </html>
