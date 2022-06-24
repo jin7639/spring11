@@ -9,8 +9,9 @@
     <div th:text="${board.getBno}"></div>
     <div th:text="${board.getBtitle}"></div>
     <div th:text="${board.getBcontent}"></div>
-    <a href="/board/update">수정</a>
-    <a th:href="@{/board/delete/{bno}(bno=${array.getBno})}" >삭제</a>
+    <a href="/update">수정</a>
+    <a th:href="@{/board/delete/{bno}(bno=${board.getBno})}">삭제</a>
+<!--    <a th:href="@{/board/delete/(bno=${board.getBno})}">삭제</a>-->
     <a href="/board/list">목록</a>
 </body>
 </html>

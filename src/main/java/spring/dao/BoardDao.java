@@ -60,7 +60,6 @@ public class BoardDao {
 
     public BoardDto getboard(int bno) {
             String sql = "select * from board where bno="+bno;
-            System.out.println(sql);
             try {
                 ps = con.prepareStatement(sql);
                 rs = ps.executeQuery();
@@ -79,13 +78,14 @@ public class BoardDao {
     }
 
     public boolean update(int bno, String btitle, String bcontent) {
-            String sql = "update board set btitle = "+btitle+" and bcontent = "+bcontent+" where bno = "+bno;
+            String sql = "update board set btitle = "+btitle+" , bcontent = "+bcontent+" where bno = "+bno;
+            System.out.println(sql);
         try {
             ps= con.prepareStatement(sql);
             ps.executeUpdate();
             return true;
         } catch (Exception e) {
-            System.out.println("오류 " + e);
+            System.out.println("update error : " + e);
         }
         return false;
     }
@@ -94,10 +94,11 @@ public class BoardDao {
         String sql = "delete from board where bno="+bno;
         try {
             ps = con.prepareStatement(sql);
+            System.out.println(sql);
             ps.execute();
             return true;
         } catch (Exception e) {
-            System.out.println("sql오류 " + e);
+            System.out.println("delete error : " + e);
         }
         return false;
     }

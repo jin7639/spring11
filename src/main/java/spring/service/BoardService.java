@@ -14,15 +14,16 @@ public class BoardService {
     public void save(BoardDto boardDto) {
         boardDao.save(boardDto);
     }
+
     public ArrayList<BoardDto> boardDtoList (){
         ArrayList<BoardDto> boardList =  boardDao.boardDtoList();
         System.out.println(boardList);
-            return boardList;
+        return boardList;
     }
 
     public BoardDto getboard(int bno) {
-        System.out.println(bno);
-        return boardDao.getboard(bno);
+        BoardDto board = boardDao.getboard(bno);
+        return board;
     }
 
     public boolean update(BoardDto boardDto) {
@@ -30,6 +31,7 @@ public class BoardService {
     }
 
     public boolean delete(int bno) {
+        System.out.println(bno);
         return boardDao.delete(bno);
 
     }

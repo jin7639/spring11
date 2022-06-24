@@ -6,11 +6,10 @@
 </head>
 <body>
     <h3>수정하기</h3>
-    <form action="/board/update" method="put" >
-        <div th:text="${board.getBno}"></div>
-        제목 <input type="text" name="btitle" >
+    <form action="/board/update" method="post" >
+        제목 <input type="text" name="btitle">
         내용 <input type="text" name="bcontent">
-        <button type="submit">쓰기</button>
+        <button type="submit">수정</button>
     </form>
 
     <a href="/board/list">목록</a>
