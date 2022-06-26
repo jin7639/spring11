@@ -12,63 +12,57 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Controller
-@RequestMapping("/board")
 public class BoardController {
     @Autowired
-    BoardService boardService;
-
-    @Autowired
     private HttpServletRequest request;
-
-    @GetMapping("/save")
-    public String save() {
-
-        return "board/write"; //파일 명
-    }
-    @PostMapping("/save")
-    @ResponseBody   // 템플릿 아닌 객체 반환
-    public String save(BoardDto boardDto ) {
-        System.out.println("save");
-        boardService.save(boardDto);
+    @Autowired
+    BoardService boardService;
+    @GetMapping("/")
+    public String main(Model model){
+        model.addAttribute("list",boardService.getlist());
         return "board/list";
     }
+    @GetMapping("/write")
+    public String write(){
+        return "board/write";
+    }
 
-    @GetMapping("/list")
-    public String list(Model model) {
-            model.addAttribute("boardlist", boardService.boardDtoList());
-        return "board/list";
+    @GetMapping("/update")
+    public String update(){
+        return "board/update";
     }
 
     @GetMapping("/view/{bno}")
     public String view(@PathVariable("bno") int bno , Model model){
-        BoardDto boardDto = boardService.getboard(bno);
-        model.addAttribute("board",boardDto); //model = boarddto
+        BoardDto boardDto = boardService.board(bno);
+        model.addAttribute("board",boardDto);
         request.getSession().setAttribute("bno", bno);
         return "board/view";
     }
-    @GetMapping("/update")
-    public String update(){
-        return "/board/update";
-    }
-    @RequestMapping("/update")
-    @ResponseBody
-    public String update(@ModelAttribute BoardDto boardDto,Model model){
-        int bno =  (Integer) request.getSession().getAttribute("bno");
 
-        model.addAttribute("board",boardDto);
-        boardDto.setBno( bno );
-        boardService.update(boardDto);
+
+    @PostMapping("/write")
+    public String write(@ModelAttribute BoardDto boardDto,Model model){
+        boardService.save(boardDto);
+        model.addAttribute("list",boardService.getlist());
         return "board/list";
     }
 
-    @GetMapping("/delete")
-    @ResponseBody
-    public boolean delete(){
+    @PostMapping("/update")
+    public String update(@ModelAttribute BoardDto boardDto,Model model){
         int bno =  (Integer) request.getSession().getAttribute("bno");
-
-        System.out.println(bno);
-        return boardService.delete(bno);
+        boardDto.setBno( bno );
+        boardService.update(boardDto);
+        request.getSession().setAttribute("bno", bno);
+        return "board/view";
     }
 
+    @GetMapping("/delete")
+    public String delete( Model model){
+        int bno =  (Integer) request.getSession().getAttribute("bno");
+        boardService.delete(bno);
+        model.addAttribute("list",boardService.getlist());
+        return "board/list";
+    }
 
 }

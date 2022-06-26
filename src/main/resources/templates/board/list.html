@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
@@ -5,18 +6,18 @@
     <title>Title</title>
 </head>
 <body>
-    <div id="boardlist">
-        <a href="/board/save">쓰기</a>
-        <h3>글목록</h3>
-        <table>
-
-        <tr th:each="array:${boardlist}">
-
-            <td th:text="${array.bno}" ></td>
-            <td><a th:href="@{/board/view/{bno}(bno=${array.getBno})}" > <span th:text = "${array.btitle}"></span></a></td>
-            <td th:text="${array.bcontent}"></td>
-        </tr>
-        </table>
-    </div>
+<div>
+    <a href="/write"><button>글쓰기</button></a>
+</div>
+<table>
+    <tr>
+        <th>제목</th>
+        <th>내용</th>
+    </tr>
+    <tr th:each="array:${list}">
+        <td><a th:href=" @{/view/{bno}(bno=${array.getBno()})}">[[${array.getBtitle}]]</a></td>
+        <td>[[${array.getBcontent}]]</td>
+    </tr>
+</table>
 </body>
 </html>

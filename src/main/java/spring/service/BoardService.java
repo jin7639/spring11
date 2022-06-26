@@ -9,30 +9,26 @@ import java.util.ArrayList;
 
 @Service
 public class BoardService {
-    @Autowired
-    private BoardDao boardDao;
-    public void save(BoardDto boardDto) {
+
+    BoardDao boardDao = new BoardDao();
+
+    public boolean save(BoardDto boardDto){
         boardDao.save(boardDto);
+        return true;
     }
 
-    public ArrayList<BoardDto> boardDtoList (){
-        ArrayList<BoardDto> boardList =  boardDao.boardDtoList();
-        System.out.println(boardList);
-        return boardList;
+    public ArrayList<BoardDto> getlist(){
+        ArrayList<BoardDto> list = boardDao.list();
+        return list;
     }
-
-    public BoardDto getboard(int bno) {
-        BoardDto board = boardDao.getboard(bno);
-        return board;
+    public BoardDto board( int bno ) {
+        return boardDao.board(bno);
     }
-
-    public boolean update(BoardDto boardDto) {
-        return boardDao.update(boardDto.getBno(),boardDto.getBtitle(),boardDto.getBcontent());
-    }
-
-    public boolean delete(int bno) {
-        System.out.println(bno);
+    public boolean delete(int bno){
         return boardDao.delete(bno);
+    }
 
+    public boolean update(BoardDto boardDto){
+        return boardDao.update(boardDto.getBno(),boardDto.getBtitle(),boardDto.getBcontent());
     }
 }

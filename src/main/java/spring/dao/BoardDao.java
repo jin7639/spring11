@@ -17,89 +17,89 @@ public class BoardDao {
             try {
                 Class.forName("com.mysql.cj.jdbc.Driver");
                 con = DriverManager.getConnection("jdbc:mysql://localhost:3306/spring?serverTimezone=Asia/Seoul","root","1234");
-                System.out.println("Connection");
+                System.out.println("연동성공");
             }catch (Exception e) {
-                System.err.println("DB Connect error : " + e);
+                System.out.println("DB Connect error : " + e);
             }
         }
-    public boolean save(BoardDto boardDto) {
-        try {
-            String sql = "insert into board(btitle,bcontent)values(?,?)";
-            ps = con.prepareStatement(sql);
-            ps.setString(1, boardDto.getBtitle());
-            ps.setString(2, boardDto.getBcontent());
+    public boolean save(BoardDto boardDto){
+        try{
+            String sql = "insert into board(btitle,bcontent) values(?,?)";
+            ps=con.prepareStatement(sql);
+
+            ps.setString(1,boardDto.getBtitle());
+            ps.setString(2,boardDto.getBcontent());
             ps.executeUpdate();
             return true;
-        } catch (Exception e) {
-            System.err.println("save error : " + e);
+        }catch(Exception e){
+            System.out.println("save error : "+ e);
         }
         return false;
     }
-
-    public ArrayList<BoardDto> boardDtoList (){
-            ArrayList<BoardDto> boardList = new ArrayList<>();
-            String sql = "select * from board order by bno desc";
-            try {
-                ps = con.prepareStatement(sql);
-                rs = ps.executeQuery();
-                while(rs.next()) {
-                    BoardDto board = new BoardDto(
-                            rs.getInt(1),
-                            rs.getString(2),
-                            rs.getString(3)
-                    );
-                    boardList.add(board);
-                }
-                return boardList;
-            } catch (SQLException e) {
-                System.out.println("boardlist error : " + e);
+    public ArrayList<BoardDto> list(){
+        ArrayList<BoardDto> boardlist = new ArrayList<BoardDto>();
+        try{
+            String sql = "select * from board";
+            ps=con.prepareStatement(sql);
+            rs=ps.executeQuery();
+            while(rs.next()){
+                BoardDto boardDto = new BoardDto(
+                        rs.getInt(1),rs.getString(2)
+                        ,rs.getString(3)
+                );
+                boardlist.add(boardDto);
             }
+            return boardlist;
+        }catch(Exception e){
+            System.out.println("list error : "+ e);
+        }
         return null;
     }
 
 
-    public BoardDto getboard(int bno) {
-            String sql = "select * from board where bno="+bno;
-            try {
-                ps = con.prepareStatement(sql);
-                rs = ps.executeQuery();
-                if(rs.next()){
-                    BoardDto boardDto = new BoardDto(
-                            rs.getInt(1),
-                            rs.getString(2),
-                            rs.getString(3)
-                    );
-                    return  boardDto;
-                }
-            }catch (Exception e){
-                System.out.println("getboard error : " + e);
+    public BoardDto board( int bno ) {
+        String sql ="select * from board where bno="+bno;
+        try {
+            ps = con.prepareStatement(sql);
+            rs = ps.executeQuery();
+            if( rs.next() ) {
+                BoardDto boardDto = new BoardDto(
+                        rs.getInt(1),rs.getString(2),
+                        rs.getString(3)
+                );
+                return boardDto;
             }
-            return null;
+        }catch (Exception e) {
+            System.out.println("board error : "+ e);
+        } return null;
+
+
     }
 
-    public boolean update(int bno, String btitle, String bcontent) {
-            String sql = "update board set btitle = "+btitle+" , bcontent = "+bcontent+" where bno = "+bno;
-            System.out.println(sql);
-        try {
+    public boolean update(int bno,String btitle,String bcontent){
+        try{
+            String sql ="update board set btitle="+btitle+", bcontent="+bcontent+" where bno="+bno;
             ps= con.prepareStatement(sql);
             ps.executeUpdate();
             return true;
-        } catch (Exception e) {
-            System.out.println("update error : " + e);
+        }
+        catch(Exception e){
+            System.out.println("udpate error : "+ e);
         }
         return false;
     }
 
-    public boolean delete(int bno) {
-        String sql = "delete from board where bno="+bno;
-        try {
-            ps = con.prepareStatement(sql);
-            System.out.println(sql);
-            ps.execute();
+    public boolean delete(int bno){
+        try{
+            String sql ="delete from board where bno="+bno;
+            ps= con.prepareStatement(sql);
+            ps.executeUpdate();
             return true;
-        } catch (Exception e) {
-            System.out.println("delete error : " + e);
+        }
+        catch(Exception e){
+            System.out.println("delete error : "+ e);
         }
         return false;
     }
+
 }
